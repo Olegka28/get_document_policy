@@ -1,0 +1,22 @@
+{
+  "name": "get-document-policy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "netlify dev",
+    "watch": "netlify dev --live",
+    "build": "netlify build",
+    "deploy": "netlify deploy -p"
+  },
+  "dependencies": {
+    "@netlify/functions": "^1.0.0",
+    "@types/cheerio": "^0.22.31",
+    "cheerio": "^1.0.0-rc.11",
+    "node-fetch": "^3.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.35",
+    "netlify-cli": "^10.3.1"
+  }
+}
