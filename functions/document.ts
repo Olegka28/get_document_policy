@@ -2,51 +2,79 @@
 import { Handler } from "@netlify/functions";
 
 // utils
-import { fetchHTMLString, parseHTML } from "./utils";
-
-// constants
-import { DOCUMENT_MAP } from "./constants";
+import { fetchHTMLString, getPath, parseHTML, getBaseUrl } from "./utils";
 
 // types
 import { TagName } from "./types";
 
-const BASE_URL = "https://get-on-track.io";
+const URL_PRED_PRO_WEB =
+  "https://calorietracker-web-feature-pre-prod-w9hwcn.asqq.xyz/";
+
+const headers = {
+  "Cache-Control": "no-cache, no-store",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
 
 const handler: Handler = async (event, context) => {
-  const path = event.queryStringParameters.document
-    ? DOCUMENT_MAP[event.queryStringParameters.document]
-    : DOCUMENT_MAP.terms;
+  try {
+    const document = event.queryStringParameters.document || "";
+    const from = event.queryStringParameters.from || "";
+    const variant = event.queryStringParameters.variant || "";
 
-  const url = event.queryStringParameters.from
-    ? event.queryStringParameters.from
-    : BASE_URL;
+    const url = getBaseUrl(variant);
+    const url_from = from ? from : URL_PRED_PRO_WEB;
 
-  // fetch base html
-  const htmlString = await fetchHTMLString(BASE_URL + path);
+    const path = getPath(document, {
+      variant,
+    });
 
-  const html = parseHTML(htmlString, TagName.HTML);
-  html.find(TagName.STYLE).replaceWith("");
+    const pathTemplate = getPath(document);
 
-  // fetch html with style
-  const htmlStringWithStyle = await fetchHTMLString(url + DOCUMENT_MAP.terms);
+    // fetch template html with content
+    const htmlContentString = await fetchHTMLString(url + path);
+    const htmlContent = parseHTML(htmlContentString, TagName.HTML);
+    const content = htmlContent.find(".container").html();
 
-  const style = parseHTML(htmlStringWithStyle, TagName.STYLE).html();
-  const styleTag = `<style type="text/css">${style}</style>`;
+    // fetch template html with style
+    const htmlTemplateString = await fetchHTMLString(url_from + pathTemplate);
 
-  // add style to document
-  html.find(TagName.HEAD).append(styleTag);
-  const data = html.html();
+    switch (event.httpMethod) {
+      case "GET":
+        const htmlTemplate = parseHTML(htmlTemplateString, TagName.HTML);
 
-  // if (html || html.html()) {
-  //   return {
-  //     statusCode: 403,
-  //   };
-  // }
+        // add content to document
+        htmlTemplate.find("#docus-content").append(content);
+        const html = `<!DOCTYPE html><html>${htmlTemplate.html()}</html>`;
 
-  return {
-    statusCode: 200,
-    body: data,
-  };
+        return {
+          statusCode: 200,
+          headers: headers,
+          body: html,
+        };
+
+      case "POST":
+        const htmlTemplatePost = parseHTML(event.body, TagName.HTML);
+
+        // add content to document
+        htmlTemplatePost.find("#docus-content").append(content);
+        const body = `<!DOCTYPE html><html>${htmlTemplatePost.html()}</html>`;
+
+        return {
+          statusCode: 200,
+          headers: headers,
+          body: body,
+        };
+      default:
+        return {
+          statusCode: 401,
+          body: "Support only GET | POST method",
+          headers: headers,
+        };
+    }
+  } catch (e) {
+    throw Error(e);
+  }
 };
 
 export { handler };

@@ -4,6 +4,17 @@ export enum DocumentPath {
   REFUND_POLICE = "/policy/refund-policy.html",
 }
 
+export enum DocumentPathTemplate {
+  TERMS_OF_USE = "/terms-of-use-template.html",
+  PRIVACY_POLICE = "/privacy-policy-template.html",
+  REFUND_POLICE = "/refund-policy-template.html",
+}
+
+export enum DocumentPathLanding {
+  TERMS_OF_USE = "/terms-of-use-app.html",
+  PRIVACY_POLICE = "/privacy-policy-app.html",
+}
+
 export enum Document {
   TERMS_OF_USE = "terms",
   PRIVACY_POLICE = "privacy",
@@ -14,4 +25,9 @@ export enum TagName {
   STYLE = "style",
   HTML = "html",
   HEAD = "head",
+}
+
+export enum Type {
+  WEB = "web",
+  LANDING = "landing",
 }
