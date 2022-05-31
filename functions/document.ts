@@ -17,13 +17,15 @@ const headers = {
 };
 
 const handler: Handler = async (event, context) => {
+  console.log(event.headers.referrer);
   try {
     const document = event.queryStringParameters.document || "";
-    const from = event.queryStringParameters.from || "";
     const variant = event.queryStringParameters.variant || "";
 
     const url = getBaseUrl(variant);
-    const url_from = from ? from : URL_PRED_PRO_WEB;
+    const url_from = event.headers.referer
+      ? event.headers.referer
+      : URL_PRED_PRO_WEB;
 
     const path = getPath(document, {
       variant,

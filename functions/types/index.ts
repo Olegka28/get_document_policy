@@ -5,9 +5,9 @@ export enum DocumentPath {
 }
 
 export enum DocumentPathTemplate {
-  TERMS_OF_USE = "/terms-of-use-template.html",
-  PRIVACY_POLICE = "/privacy-policy-template.html",
-  REFUND_POLICE = "/refund-policy-template.html",
+  TERMS_OF_USE = "terms-of-use-template.html",
+  PRIVACY_POLICE = "privacy-policy-template.html",
+  REFUND_POLICE = "refund-policy-template.html",
 }
 
 export enum DocumentPathLanding {
