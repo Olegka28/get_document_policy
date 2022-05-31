@@ -13,12 +13,14 @@ export enum DocumentPathTemplate {
 export enum DocumentPathLanding {
   TERMS_OF_USE = "/terms-of-use-app.html",
   PRIVACY_POLICE = "/privacy-policy-app.html",
+  SUBSCRIPTION_TERMS = "/subscription-terms-app.html",
 }
 
 export enum Document {
   TERMS_OF_USE = "terms",
   PRIVACY_POLICE = "privacy",
   REFUND_POLICE = "refund",
+  SUBSCRIPTION_TERMS = "subscription",
 }
 
 export enum TagName {
