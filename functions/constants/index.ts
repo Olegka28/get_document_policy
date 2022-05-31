@@ -15,6 +15,7 @@ export const DOCUMENT_MAP_WEB = {
 export const DOCUMENT_MAP_LANDING = {
   [Document.TERMS_OF_USE]: DocumentPathLanding.TERMS_OF_USE,
   [Document.PRIVACY_POLICE]: DocumentPathLanding.PRIVACY_POLICE,
+  [Document.SUBSCRIPTION_TERMS]: DocumentPathLanding.SUBSCRIPTION_TERMS,
 };
 
 export const DOCUMENT_MAP_TEMPLATE = {
