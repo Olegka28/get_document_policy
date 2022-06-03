@@ -7,9 +7,6 @@ import { fetchHTMLString, getPath, parseHTML, getBaseUrl } from "./utils";
 // types
 import { TagName } from "./types";
 
-const URL_PRED_PRO_WEB =
-  "https://calorietracker-web-feature-pre-prod-w9hwcn.asqq.xyz/";
-
 const headers = {
   "Cache-Control": "no-cache, no-store",
   "Access-Control-Allow-Origin": "*",
@@ -17,15 +14,12 @@ const headers = {
 };
 
 const handler: Handler = async (event, context) => {
-  console.log(event.headers.referrer);
   try {
     const document = event.queryStringParameters.document || "";
     const variant = event.queryStringParameters.variant || "";
 
     const url = getBaseUrl(variant);
-    const url_from = event.headers.referer
-      ? event.headers.referer
-      : URL_PRED_PRO_WEB;
+    const url_from = event.headers.referer ? event.headers.referer : `${url}/`;
 
     const path = getPath(document, {
       variant,
